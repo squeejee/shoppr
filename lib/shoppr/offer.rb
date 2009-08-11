@@ -6,14 +6,13 @@ module Shoppr
     xml_reader :name
     xml_reader :description
     xml_reader :manufacturer
-    xml_reader :images, :as => [Image], :from => 'imageList'
+    xml_reader :images, :as => [Image], :in => 'imageList'
     xml_reader :stock_status
     xml_reader :store_notes
-    xml_reader :currency, :from => '/basePrice[@currency]'
     xml_reader :base_price, :as => Float
-    xml_reader :tax
-    xml_reader :shipping_cost
-    xml_reader :total_price
+    xml_reader :tax, :as => Float
+    xml_reader :shipping_cost, :as => Float
+    xml_reader :total_price, :as => Float
     xml_reader :offer_url, :from => 'offerURL'
     xml_reader :store, :as => Store
     xml_reader :cpc, :as => Float

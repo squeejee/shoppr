@@ -11,7 +11,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'shoppr'
 
-class Test::Unit::TestCase
+class Test::Unit::TestCase    
 end
 
 def fixture_file(filename)

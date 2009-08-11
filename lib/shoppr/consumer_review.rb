@@ -4,7 +4,8 @@ module Shoppr
     xml_convention {|val| val.camelize(:lower) }
     xml_reader :author_id, :from => 'authorID'
     xml_reader :post_date, :as => Time
-    xml_reader :rating, :as => Float, , :from => '/rating/average_rating'
+    xml_reader :rating, :as => Float, :from => 'rating/overallRating'
+    xml_reader :feature_ratings, :as => [FeatureRating], :from => 'rating/featureRating'
     xml_reader :summary
     xml_reader :bottom_line
     xml_reader :pros

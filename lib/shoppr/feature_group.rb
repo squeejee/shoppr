@@ -3,6 +3,7 @@ module Shoppr
     include ROXML
     xml_convention {|val| val.camelize(:lower) }
     xml_reader :name
-    xml_reader :feature, :as => Feature
+    xml_reader :description
+    xml_reader :features, :as => [Feature]
   end
 end
