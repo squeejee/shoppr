@@ -21,18 +21,27 @@ module Shoppr
     end
     
     def api_version
+      self.class.parser Proc.new {|response| GenericResponse.from_xml(response)}
       @api_version ||= self.class.get('/').server_detail.api_version
     end
     
     def search(options={})
-      response = self.class.get('/GeneralSearch', :query => default_options.merge(options))
-      GeneralSearchResponse.from_xml(response)
+      self.class.parser Proc.new {|response| GeneralSearchResponse.from_xml(response)}
+      self.class.get('/GeneralSearch', :query => default_options.merge(prep_query_options(options)))
     end
     
     
     private
       def default_options
         {:apiKey => self.api_key, :trackingId => self.tracking_id}
+      end
+      
+      def prep_query_options(options)
+        opts = {}
+        options.each do |key, value|
+          opts[key.to_s.camelize(:lower)] = value
+        end
+        opts
       end
   end
 end
