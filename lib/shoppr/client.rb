@@ -3,7 +3,7 @@ module Shoppr
     include HTTParty
     format :xml
     
-    attr_reader :api_key, :tracking_id, :sandboxed
+    attr_reader :api_key, :tracking_id, :sandboxed, :api_version
     
     # Get your api_key found here http://developer.shopping.com/docs/Getting_Started
     def initialize(sandboxed=false)
@@ -20,9 +20,13 @@ module Shoppr
       !!@sandboxed
     end
     
+    def api_version
+      @api_version ||= self.class.get('/').server_detail.api_version
+    end
+    
     def search(options={})
       response = self.class.get('/GeneralSearch', :query => default_options.merge(options))
-      format_response response
+      GeneralSearchResponse.from_xml(response)
     end
     
     
@@ -30,29 +34,5 @@ module Shoppr
       def default_options
         {:apiKey => self.api_key, :trackingId => self.tracking_id}
       end
-
-      def format_general_response(response)
-        response.server_detail = rubyize_keys(response.delete('serverDetail'))
-        
-        response
-      end
-      
-      def format_response(response)
-        response = Mash.new(response)
-        case response.keys.first
-        when "GeneralSearchResponse"
-          format_general_response(response["GeneralSearchResponse"])
-        end
-      end
-      
-      def rubyize_keys(hash)
-        new_hash = {}
-        hash.keys.each do |key|
-          new_hash[key.underscore] = hash[key]
-        end
-        new_hash
-      end
-      
-      
   end
 end
