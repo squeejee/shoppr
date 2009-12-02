@@ -8,7 +8,7 @@ require 'roxml'
 gem 'mash', '0.0.3'
 require 'mash'
 
-gem 'httparty', '0.4.3'
+gem 'httparty', '~> 0.4.3'
 require 'httparty'
 
 module HTTParty
