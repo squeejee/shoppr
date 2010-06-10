@@ -6,6 +6,7 @@ module Shoppr
     xml_reader :name
     xml_reader :category_url, :from => 'categoryURL'
     xml_reader :content_type
+    xml_reader :items, :from => 'items/product'
     xml_reader :products, :as => [Product], :from => 'items/product'
     xml_reader :offers, :as => [Offer], :from => 'items/offer'
     xml_reader :attributes, :as => [Attribute], :in => 'attributes'

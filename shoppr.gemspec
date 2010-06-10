@@ -5,19 +5,19 @@
 
 Gem::Specification.new do |s|
   s.name = %q{shoppr}
-  s.version = "0.1.1"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Wynn Netherland", "Jim Mulholland"]
-  s.date = %q{2009-12-02}
-  s.email = %q{wynn@squeejee.com}
+  s.date = %q{2010-06-10}
+  s.email = %q{jim@squeejee.com}
   s.extra_rdoc_files = [
-    "README.rdoc"
+    "README.markdown"
   ]
   s.files = [
     "History",
      "License",
-     "README.rdoc",
+     "README.markdown",
      "Rakefile",
      "VERSION.yml",
      "lib/shoppr.rb",
@@ -58,7 +58,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{shoppr}
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Ruby wrapper for the Shopping.com API}
   s.test_files = [
     "test/shoppr/client_test.rb",
@@ -72,16 +72,18 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<mash>, [">= 0.0.3"])
-      s.add_runtime_dependency(%q<httparty>, [">= 0.4.3"])
+      s.add_runtime_dependency(%q<mash>, ["= 0.0.3"])
+      s.add_runtime_dependency(%q<httparty>, [">= 0.5.0"])
+      s.add_runtime_dependency(%q<roxml>, ["~> 2.5.3"])
       s.add_development_dependency(%q<thoughtbot-shoulda>, [">= 0"])
       s.add_development_dependency(%q<jeremymcanally-matchy>, [">= 0"])
       s.add_development_dependency(%q<mocha>, [">= 0"])
       s.add_development_dependency(%q<fakeweb>, [">= 0"])
       s.add_development_dependency(%q<mash>, [">= 0"])
     else
-      s.add_dependency(%q<mash>, [">= 0.0.3"])
-      s.add_dependency(%q<httparty>, [">= 0.4.3"])
+      s.add_dependency(%q<mash>, ["= 0.0.3"])
+      s.add_dependency(%q<httparty>, [">= 0.5.0"])
+      s.add_dependency(%q<roxml>, ["~> 2.5.3"])
       s.add_dependency(%q<thoughtbot-shoulda>, [">= 0"])
       s.add_dependency(%q<jeremymcanally-matchy>, [">= 0"])
       s.add_dependency(%q<mocha>, [">= 0"])
@@ -89,8 +91,9 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<mash>, [">= 0"])
     end
   else
-    s.add_dependency(%q<mash>, [">= 0.0.3"])
-    s.add_dependency(%q<httparty>, [">= 0.4.3"])
+    s.add_dependency(%q<mash>, ["= 0.0.3"])
+    s.add_dependency(%q<httparty>, [">= 0.5.0"])
+    s.add_dependency(%q<roxml>, ["~> 2.5.3"])
     s.add_dependency(%q<thoughtbot-shoulda>, [">= 0"])
     s.add_dependency(%q<jeremymcanally-matchy>, [">= 0"])
     s.add_dependency(%q<mocha>, [">= 0"])

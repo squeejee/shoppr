@@ -6,14 +6,15 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name              = "shoppr"
     gem.summary           = %Q{Ruby wrapper for the Shopping.com API}
-    gem.email             = "wynn@squeejee.com"
+    gem.email             = "jim@squeejee.com"
     gem.homepage          = "http://github.com/squeejee/shoppr"
     gem.authors           = ["Wynn Netherland", "Jim Mulholland"]
     gem.rubyforge_project = "shoppr"
     gem.files             = FileList["[A-Z]*", "{examples,lib,test}/**/*"]
     
     gem.add_dependency('mash', '0.0.3')
-    gem.add_dependency('httparty', '~> 0.4.3')
+    gem.add_dependency('httparty', '>= 0.5.0')
+    gem.add_dependency('roxml', '~> 2.5.3')
     
     gem.add_development_dependency('thoughtbot-shoulda')
     gem.add_development_dependency('jeremymcanally-matchy')
@@ -73,4 +74,9 @@ begin
   end
 rescue LoadError
   puts "Rake SshDirPublisher is unavailable or your rubyforge environment is not configured."
+end
+
+desc "Open an irb session preloaded with this library"
+task :console do
+  sh "irb -rubygems -I lib -r shoppr.rb"
 end

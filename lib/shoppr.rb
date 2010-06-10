@@ -2,7 +2,7 @@ require 'forwardable'
 require 'rubygems'
 require 'active_support'
 
-gem 'roxml'
+gem 'roxml', '2.5.3'
 require 'roxml'
 
 gem 'mash', '0.0.3'
@@ -12,11 +12,11 @@ gem 'httparty'
 require 'httparty'
 
 module HTTParty
-  module ClassMethods
-    def parser(customer_parser)
-      default_options[:parser] = customer_parser
-    end
-  end
+  # module ClassMethods
+  #   def parser(customer_parser)
+  #     default_options[:parser] = customer_parser
+  #   end
+  # end
   
   class Request
     def parse_response(body)

@@ -4,10 +4,15 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
   include Shoppr
   
   context "When mapping general search response XML to ruby objects" do
-    setup { @general_response = GeneralSearchResponse.from_xml(fixture_file('general_search_specs_offers_reviews.xml')) }
+    setup do
+      @client = Shoppr::Client.new(true)
+      stub_get 'http://sandbox.api.shopping.com/publisher/3.0/rest/GeneralSearch?trackingId=7000610&keyword=nikon&apiKey=authorized-key&showProductSpecs=true&showProductReviews=true&showProductOffers=true', 'general_search_specs_offers_reviews.xml'
+      # @general_response = GeneralSearchResponse.from_xml(fixture_file('general_search_specs_offers_reviews.xml')) 
+      @general_response = @client.search({:keyword => "nikon", :show_product_specs => true, :show_product_reviews => true, :show_product_offers => true})
+    end 
     
     should "include server detail information" do
-      @general_response.server_detail.api_version.should == '3.1 R21.4'
+      @general_response.server_detail.api_version.should == '3.1 R25.4.1'
       @general_response.server_detail.api_env.should == 'sandbox'
     end
     
@@ -50,7 +55,7 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
       end
       
       should "include products" do
-        @categories.first.products.size.should == 5
+        @categories.first.products.size.should == 2
       end
       
       context "when mapping products" do
@@ -59,13 +64,11 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
         end
 
         should "should map product attributes" do
-          @product.id.should == 37724181
-          @product.name.should == 'Nikon D40 Digital Camera with 18-55mm lens'
-          @product.short_description.should == '6.24 Megapixel, SLR Camera, 2.5 in. LCD Screen, 3x Optical Zoom, Weight: 1.06 lb.'
-          @product.min_price.should == 375.00
-          @product.max_price.should == 600.00
-          @product.product_offers_url.should == 'http://www.shopping.com/xPO-Nikon-D40-with-G-II-18-55mm-Lens~linkin_id-7000610'
-          @product.product_specs_url.should == 'http://www.shopping.com/xPF-Nikon-D40-with-G-II-18-55mm-Lens~linkin_id-7000610'
+          @product.id.should == 95738382
+          @product.name.should == "Nikon COOLPIX S4000 Digital Camera"
+          @product.short_description.should == '12 Megapixel, Compact Camera, 3 in. LCD Screen, 4x Optical Zoom, With High Definition Video, Weight: 0.29 lb.'
+          @product.min_price.should == 167.00
+          @product.max_price.should == 301.00
         end
         
         context "when mapping offers" do
@@ -75,23 +78,10 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
 
           should "should include offer info" do
             @product.offers.size.should == 5
-            @offer.featured?.should == true
+            @offer.featured?.should == false
             @offer.smart_buy?.should == false
             @offer.used?.should == false
-            @offer.name.should == 'Nikon D40 6.1 Megapixel Digital SLR Camera 3X Zoom Kit Outfit, with 18-55mm f/3.5-5.6G ED II AF-S DX Zoom Nikkor Lens - Refurbished by Nikon U.S.A.'
-            @offer.description.length.should_not == 0
-            @offer.category_id.should == 7185
-            @offer.manufacturer.should == 'Nikon'
-            @offer.images.size.should == 4
-            @offer.images.last.width.should == 400
-            @offer.stock_status.should == 'in-stock'
-            @offer.store_notes.should == 'Refurbished Model'
-            #@offer.currency.should == 'USD'
-            @offer.base_price.should == 374.95
-            @offer.tax.should == nil
-            @offer.shipping_cost.should == 0.00
-            @offer.total_price.should == nil
-            @offer.offer_url.include?('http://').should == true
+            @offer.name.should == 'Coolpix S4000 Digital Camera, 12MP, 4x Zoom, Black'
           end
           
           context "when mapping store info" do
@@ -100,20 +90,17 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
             end
 
             should "should include store info" do
-              @store.name.should == 'Adorama'
+              @store.name.should == 'PC Connection Express'
               @store.logo.height.should == 31
               @store.rating.should == 4.50
-              @store.review_count.should == 6187
-              @store.review_url.should == 'http://www.shopping.com/xMR-null~MRD-9391~S-1~linkin_id-7000610'
-              @store.rating_image.source_url.should == 'http://img.shopping.com/sc/mr/sdc_checks_45.gif'
-              @store.country_code.should == 'US'
+              @store.review_count.should == 5686
             end
           end
           
         end
         
         should "include specifications" do
-          @product.specifications.size.should == 15
+          @product.specifications.size.should == 14
         end
         
         context "when mapping feature groups" do
@@ -122,24 +109,20 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
           end
 
           should "should include feature info" do
-            @feature_group.features.size.should == 5
+            @feature_group.features.size.should == 6
             @feature = @feature_group.features[3]
-            @feature.name.should == 'Image Sensor Type'
-            @feature.description.nil?.should == false
-            @feature.values.first.should == 'CCD'
+            @feature.name.should == 'Optical Zoom'
           end
         end
         
         
         should "include review info" do
-          @product.review_count.should == 101
+          @product.review_count.should == 4
           @product.rating.should == 4.00
           @product.rating_image.source_url.should == 'http://img.shopping.com/sc/pr/sdc_stars_sm_4.gif'
-          @product.reviews.size.should == 5
+          @product.reviews.size.should == 1
           @product.overall_rating.should == 4.00
-          @product.feature_ratings.size.should == 5
-          @product.feature_ratings.last.name.should == 'Shutter Lag'
-          @product.feature_ratings.last.value.should == 4.64
+          @product.feature_ratings.size.should == 0
         end
         
         context "when mapping consumer reviews" do
@@ -148,17 +131,10 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
           end
 
           should "include review info" do
-            @review.author_id.should == 'phill525'
-            @review.post_date.yday.should == 124
-            @review.rating.should == 5.00
-            @review.feature_ratings.size.should == 5
-            @review.feature_ratings.first.name.should == 'Ease of Use:'
-            @review.feature_ratings.first.value.should == 4
-            @review.summary.should == 'Nikon D40'
-            @review.pros.should == 'Lots of features.<br>Easy to use.<br>Intuitive menu.'
-            @review.cons.should == 'No video capture like most recent SLR\'s, but not really a "con".'
-            @review.content.should == 'This is an EXCELLENT camera for the money.&nbsp; Don\'t be drawn to more expensive cameras just becau'
-            @review.url.should == 'http://www.epinions.com/content_469199523460?linkin_id=7000610'
+            @review.author_id.should == 'hdsquared'
+            @review.post_date.yday.should == 146
+            @review.rating.should == 1.00
+            @review.feature_ratings.size.should == 0
           end
         end
         
@@ -167,8 +143,8 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
           should "should include images" do
             #@product.images.size.should == 4
             @product.images.first.height.should == 100
-            @product.images.last.width.should == 400
-            @product.images.last.source_url.should == 'http://di1.shopping.com/images/pi/dd/9b/90/37724181-400x400-0-0.jpg?p=w2.8817498383328ac21657&a=2&c=1&l=7000610&t=090810232437&r=5'
+            @product.images.last.width.should == 350
+            @product.images.last.source_url.should == "http://di1.shopping.com/images/pi/36/ff/8e/95738382-350x349-0-0.jpg?p=p2.90ca531eeb3e309b5933&a=2&c=1&l=7000610&t=100610122258&r=2"
           end
         end
         
