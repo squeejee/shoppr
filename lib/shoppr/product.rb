@@ -7,9 +7,9 @@ module Shoppr
       
       @offers = self.offers && self.offers.offer ? self.offers.offer.map {|offer| Offer.new(offer) } : []
       
-      @overall_rating = self.reviews.averageRating.overallRating 
+      @overall_rating = self.reviews.averageRating.overallRating rescue nil
       
-      @reviews = self.reviews.consumerReview ? [self.reviews.consumerReview].flatten.map {|rev| ConsumerReview.new(rev)} : []
+      @reviews = self.reviews.consumerReview ? [self.reviews.consumerReview].flatten.map {|rev| ConsumerReview.new(rev)} : [] rescue []
       
       @review_count = self.rating.reviewCount
       @review_url = self.rating.reviewURL
@@ -20,7 +20,7 @@ module Shoppr
       
       @images = self.images.image.map {|image| Image.new(image) } 
       
-      @specifications = self.specifications.featureGroup.map {|spec| FeatureGroup.new(spec)}
+      @specifications = self.specifications.featureGroup.map {|spec| FeatureGroup.new(spec)} rescue []
     end
     
   end
