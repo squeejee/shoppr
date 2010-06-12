@@ -20,20 +20,26 @@ module Shoppr
       !!@sandboxed
     end
     
+    def generic_response
+      @generic_response ||= GenericResponse.new()
+    end
+    
     def api_version
-      self.class.parser Proc.new {|response| GenericResponse.from_xml(response)}
-      @api_version ||= self.class.get('/').server_detail.api_version
+      # self.class.parser Proc.new {|response| GenericResponse.from_xml(response)}
+      # @api_version ||= self.class.get('/').server_detail.api_version
+      @api_version ||= generic_response.server_detail.api_version
+      
     end
     
     def search(options={})
-      self.class.parser Proc.new {|response| GeneralSearchResponse.from_xml(response)}
-      self.class.get('/GeneralSearch', :query => default_options.merge(prep_query_options(options)))
+      # self.class.parser Proc.new {|response| GeneralSearchResponse.parse_search_results(response)}
+      response = GeneralSearchResponse.new(default_options.merge(prep_query_options(options))) 
     end
     
     
     private
       def default_options
-        {:apiKey => self.api_key, :trackingId => self.tracking_id}
+        {:apiKey => self.api_key, :trackingId => self.tracking_id, :groupItemsByCategory => true}
       end
       
       def prep_query_options(options)

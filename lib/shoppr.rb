@@ -5,43 +5,41 @@ require 'active_support'
 gem 'roxml', '2.5.3'
 require 'roxml'
 
-gem 'mash', '0.0.3'
-require 'mash'
+require 'hashie'
 
-gem 'httparty'
 require 'httparty'
 
-module HTTParty
-  # module ClassMethods
-  #   def parser(customer_parser)
-  #     default_options[:parser] = customer_parser
-  #   end
-  # end
-  
-  class Request
-    def parse_response(body)
-      return nil if body.nil? or body.empty?
-      if options[:parser].blank?
-        case format
-          when :xml
-            Crack::XML.parse(body)
-          when :json
-            Crack::JSON.parse(body)
-          when :yaml
-            YAML::load(body)
-          else
-            body
-          end
-      else
-        if options[:parser].is_a?(Proc)
-          options[:parser].call(body)
-        else
-          body
-        end
-      end
-    end
-  end
-end
+# module HTTParty
+#   # module ClassMethods
+#   #   def parser(customer_parser)
+#   #     default_options[:parser] = customer_parser
+#   #   end
+#   # end
+#   
+#   class Request
+#     def parse_response(body)
+#       return nil if body.nil? or body.empty?
+#       if options[:parser].blank?
+#         case format
+#           when :xml
+#             Crack::XML.parse(body)
+#           when :json
+#             Crack::JSON.parse(body)
+#           when :yaml
+#             YAML::load(body)
+#           else
+#             body
+#           end
+#       else
+#         if options[:parser].is_a?(Proc)
+#           options[:parser].call(body)
+#         else
+#           body
+#         end
+#       end
+#     end
+#   end
+# end
 
 module Shoppr
   
@@ -59,6 +57,18 @@ module Shoppr
   
   def self.tracking_id=(value)
     @tracking_id = value
+  end
+  
+  def self.map_mash_attrs(obj, mash)
+    attrs = mash.map {|k,v| k.underscore}
+
+    obj.class_eval do
+      attr_accessor *attrs
+    end
+     
+    mash.each do |k,v|
+      obj.send("#{k.underscore}=", v)
+    end
   end
   
 end

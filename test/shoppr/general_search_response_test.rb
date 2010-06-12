@@ -6,7 +6,7 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
   context "When mapping general search response XML to ruby objects" do
     setup do
       @client = Shoppr::Client.new(true)
-      stub_get 'http://sandbox.api.shopping.com/publisher/3.0/rest/GeneralSearch?trackingId=7000610&keyword=nikon&apiKey=authorized-key&showProductSpecs=true&showProductReviews=true&showProductOffers=true', 'general_search_specs_offers_reviews.xml'
+      stub_get 'http://sandbox.api.shopping.com/publisher/3.0/rest/GeneralSearch?apiKey=authorized-key&showProductReviews=true&trackingId=7000610&groupItemsByCategory=true&showProductSpecs=true&showProductOffers=true&keyword=nikon', 'general_search_specs_offers_reviews.xml'
       # @general_response = GeneralSearchResponse.from_xml(fixture_file('general_search_specs_offers_reviews.xml')) 
       @general_response = @client.search({:keyword => "nikon", :show_product_specs => true, :show_product_reviews => true, :show_product_offers => true})
     end 
@@ -18,19 +18,19 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
     
     should "include exceptions" do
       @general_response.exceptions.size.should == 1
-      @general_response.exceptions.first.code.should == 1112
+      @general_response.exceptions.first.code.should == '1112'
     end
     
     should "include client tracking info" do
-      @general_response.client_tracking.height.should == 19
-      @general_response.client_tracking.width.should == 106
+      @general_response.client_tracking.height.should == '19'
+      @general_response.client_tracking.width.should == '106'
       @general_response.client_tracking.type.should == 'logo'
       @general_response.client_tracking.alt_text.should == 'Digital Cameras'
     end
     
     should "include search history info" do
       @general_response.search_history.category_selections.size.should == 3
-      @general_response.search_history.category_selections.last.id.should == 7185
+      @general_response.search_history.category_selections.last.id.should == '7185'
       @general_response.search_history.category_selections.last.category_url.should == 'http://www.shopping.com/xPP-digital_cameras-nikon~linkin_id-7000610?oq=nikon'
     end
     
@@ -49,7 +49,7 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
       end
       
       should "include category properties" do
-        @categories.first.id.should == 7185
+        @categories.first.id.should == '7185'
         @categories.first.name.should == 'Digital Cameras'
         @categories.first.category_url.should == 'http://www.shopping.com/xPP-digital_cameras-nikon~linkin_id-7000610?oq=nikon'
       end
@@ -149,12 +149,7 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
         end
         
       end
-      
-      
-      should "include offers" do
-        @categories.first.offers.size.should == 0
-      end
-      
+            
       should "include attributes" do
         @categories.first.attributes.size.should == 5
       end
