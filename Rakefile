@@ -12,15 +12,14 @@ begin
     gem.rubyforge_project = "shoppr"
     gem.files             = FileList["[A-Z]*", "{examples,lib,test}/**/*"]
     
-    gem.add_dependency('mash', '0.0.3')
+    gem.add_dependency('hashie', '0.2.0')
     gem.add_dependency('httparty', '>= 0.5.0')
-    gem.add_dependency('roxml', '~> 2.5.3')
     
     gem.add_development_dependency('thoughtbot-shoulda')
     gem.add_development_dependency('jeremymcanally-matchy')
     gem.add_development_dependency('mocha')
     gem.add_development_dependency('fakeweb')
-    gem.add_development_dependency('mash')
+    gem.add_development_dependency('hashie')
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
