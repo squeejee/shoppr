@@ -4,7 +4,7 @@ class GenericResponseTest < Test::Unit::TestCase
   include Shoppr
   
   context "When mapping generic response XML to ruby objects" do
-    setup { @response = GenericResponse.from_xml(fixture_file('generic_response.xml')) }
+    setup { @response = Shoppr::Client.new(true).generic_response }
     
     should "include server detail information" do
       @response.server_detail.api_version.should == '3.1 R21.4'

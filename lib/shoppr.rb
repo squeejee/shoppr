@@ -1,45 +1,8 @@
 require 'forwardable'
 require 'rubygems'
 require 'active_support'
-
-gem 'roxml', '2.5.3'
-require 'roxml'
-
 require 'hashie'
-
 require 'httparty'
-
-# module HTTParty
-#   # module ClassMethods
-#   #   def parser(customer_parser)
-#   #     default_options[:parser] = customer_parser
-#   #   end
-#   # end
-#   
-#   class Request
-#     def parse_response(body)
-#       return nil if body.nil? or body.empty?
-#       if options[:parser].blank?
-#         case format
-#           when :xml
-#             Crack::XML.parse(body)
-#           when :json
-#             Crack::JSON.parse(body)
-#           when :yaml
-#             YAML::load(body)
-#           else
-#             body
-#           end
-#       else
-#         if options[:parser].is_a?(Proc)
-#           options[:parser].call(body)
-#         else
-#           body
-#         end
-#       end
-#     end
-#   end
-# end
 
 module Shoppr
   

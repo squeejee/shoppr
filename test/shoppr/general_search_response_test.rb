@@ -64,11 +64,11 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
         end
 
         should "should map product attributes" do
-          @product.id.should == 95738382
+          @product.id.should == '95738382'
           @product.name.should == "Nikon COOLPIX S4000 Digital Camera"
           @product.short_description.should == '12 Megapixel, Compact Camera, 3 in. LCD Screen, 4x Optical Zoom, With High Definition Video, Weight: 0.29 lb.'
-          @product.min_price.should == 167.00
-          @product.max_price.should == 301.00
+          @product.min_price.should == '167.00'
+          @product.max_price.should == '301.00'
         end
         
         context "when mapping offers" do
@@ -78,9 +78,9 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
 
           should "should include offer info" do
             @product.offers.size.should == 5
-            @offer.featured?.should == false
-            @offer.smart_buy?.should == false
-            @offer.used?.should == false
+            @offer.featured.should == false
+            @offer.smart_buy.should == false
+            @offer.used.should == false
             @offer.name.should == 'Coolpix S4000 Digital Camera, 12MP, 4x Zoom, Black'
           end
           
@@ -91,9 +91,9 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
 
             should "should include store info" do
               @store.name.should == 'PC Connection Express'
-              @store.logo.height.should == 31
-              @store.rating.should == 4.50
-              @store.review_count.should == 5686
+              @store.logo.height.should == '31'
+              @store.rating.should == '4.50'
+              @store.review_count.should == '5686'
             end
           end
           
@@ -117,12 +117,11 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
         
         
         should "include review info" do
-          @product.review_count.should == 4
-          @product.rating.should == 4.00
+          @product.review_count.should == '4'
+          @product.rating.should == '4.00'
           @product.rating_image.source_url.should == 'http://img.shopping.com/sc/pr/sdc_stars_sm_4.gif'
           @product.reviews.size.should == 1
-          @product.overall_rating.should == 4.00
-          @product.feature_ratings.size.should == 0
+          @product.overall_rating.should == '4.00'
         end
         
         context "when mapping consumer reviews" do
@@ -132,9 +131,8 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
 
           should "include review info" do
             @review.author_id.should == 'hdsquared'
-            @review.post_date.yday.should == 146
-            @review.rating.should == 1.00
-            @review.feature_ratings.size.should == 0
+            @review.post_date.to_datetime.yday.should == 146
+            @review.rating.should == '1.00'
           end
         end
         
@@ -142,8 +140,8 @@ class GeneralSearchResponseTest < Test::Unit::TestCase
 
           should "should include images" do
             #@product.images.size.should == 4
-            @product.images.first.height.should == 100
-            @product.images.last.width.should == 350
+            @product.images.first.height.should == '100'
+            @product.images.last.width.should == '350'
             @product.images.last.source_url.should == "http://di1.shopping.com/images/pi/36/ff/8e/95738382-350x349-0-0.jpg?p=p2.90ca531eeb3e309b5933&a=2&c=1&l=7000610&t=100610122258&r=2"
           end
         end

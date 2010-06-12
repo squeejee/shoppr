@@ -1,9 +1,15 @@
 module Shoppr
   class FeatureGroup
-    include ROXML
-    xml_convention {|val| val.camelize(:lower) }
-    xml_reader :name
-    xml_reader :description
-    xml_reader :features, :as => [Feature]
+    
+    attr_accessor :features
+    def initialize(cat_mash)   
+      Shoppr.map_mash_attrs(self, cat_mash)
+
+      if self.feature.is_a?(Array)      
+        @features = self.feature.map {|f| Feature.new(f)}
+      else
+        @features = [Feature.new(self.feature)]
+      end
+    end
   end
 end
