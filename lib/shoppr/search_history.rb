@@ -6,7 +6,11 @@ module Shoppr
     def initialize(cat_mash)        
       Shoppr.map_mash_attrs(self, cat_mash)
       
-      @category_selections = self.category_selection.map {|category_selections| CategorySelection.new(category_selections) } 
+      if self.category_selections
+        @category_selections = self.category_selection.map {|category_selections| CategorySelection.new(category_selections) } 
+      else
+        @category_selections = []
+      end
     end
     
   end
