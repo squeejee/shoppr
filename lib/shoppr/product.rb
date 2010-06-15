@@ -14,11 +14,11 @@ module Shoppr
       @review_count = self.rating.reviewCount
       @review_url = self.rating.reviewURL
       
-      @rating_image = Image.new(self.rating.ratingImage)
+      @rating_image = Image.new(self.rating.ratingImage) rescue nil
       
       @rating = self.rating.rating     
       
-      @images = self.images.image.map {|image| Image.new(image) } 
+      @images = self.images.image.map {|image| Image.new(image) } rescue []
       
       @specifications = self.specifications.featureGroup.map {|spec| FeatureGroup.new(spec)} rescue []
     end
