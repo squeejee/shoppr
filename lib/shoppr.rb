@@ -5,35 +5,35 @@ require 'hashie'
 require 'httparty'
 
 module Shoppr
-  
+
   def self.api_key
     @api_key ||= 'authorized-key'
   end
-  
+
   def self.api_key=(value)
     @api_key = value
   end
-  
+
   def self.tracking_id
     @tracking_id ||= '7000610'
   end
-  
+
   def self.tracking_id=(value)
     @tracking_id = value
   end
-  
+
   def self.map_mash_attrs(obj, mash)
     attrs = mash.map {|k,v| k.underscore}
 
     obj.class_eval do
       attr_accessor *attrs
     end
-     
+
     mash.each do |k,v|
       obj.send("#{k.underscore}=", v)
     end
   end
-  
+
 end
 
 directory = File.expand_path(File.dirname(__FILE__))
